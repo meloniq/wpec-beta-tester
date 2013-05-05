@@ -1,0 +1,131 @@
+# Copyright (C) 2013 MELONIQ.NET
+# This file is distributed under the same license as the WPEC Beta Tester package.
+msgid ""
+msgstr ""
+"Project-Id-Version: WPEC Beta Tester 1.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/wpec-beta-tester\n"
+"POT-Creation-Date: 2013-05-05 21:02+0100\n"
+"PO-Revision-Date: 2013-05-05 21:03+0100\n"
+"Last-Translator: MELONIQ.NET\n"
+"Language-Team: MELONIQ.NET\n"
+"Language: English\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_nx:1,2;_x:1,2c;_ex:1,2c;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:1,2,3c\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../classes/updater.php:418 ../classes/wpec-updater.php:278
+msgid ""
+"The plugin has been updated, but could not be reactivated. Please reactivate "
+"it manually."
+msgstr ""
+
+#: ../classes/updater.php:419 ../classes/wpec-updater.php:280
+msgid "Plugin reactivated successfully."
+msgstr ""
+
+#: ../classes/wpec-updater.php:95
+msgid "Beta Testing WPEC"
+msgstr ""
+
+#: ../classes/wpec-updater.php:95
+msgid "WPEC Beta Testing"
+msgstr ""
+
+#: ../classes/wpec-updater.php:117
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: ../classes/wpec-updater.php:121
+msgid "Beta Testing WP e-Commerce"
+msgstr ""
+
+#: ../classes/wpec-updater.php:123
+msgid ""
+"<strong>Please note:</strong> Once you have switched your WP e-Commerce to "
+"one of these beta versions of software it will not always be possible to "
+"downgrade as the database structure maybe updated during the development of "
+"a major release."
+msgstr ""
+
+#: ../classes/wpec-updater.php:128
+#, php-format
+msgid ""
+"By their nature these releases are unstable and should not be used anyplace "
+"where your data is important. So please <a href=\"%1$s\">backup your "
+"database</a> before upgrading to a test release."
+msgstr ""
+
+#: ../classes/wpec-updater.php:129
+msgctxt "Url to database backup instructions"
+msgid "http://codex.wordpress.org/Backing_Up_Your_Database"
+msgstr ""
+
+#: ../classes/wpec-updater.php:134
+#, php-format
+msgid ""
+"Thank you for helping in testing WP e-Commerce please <a href=\"%s\">report "
+"any bugs you find</a>."
+msgstr ""
+
+#: ../classes/wpec-updater.php:135
+msgctxt "Url to raise a new ticket"
+msgid "https://github.com/wp-e-commerce/WP-e-Commerce/issues/new"
+msgstr ""
+
+#: ../classes/wpec-updater.php:138
+msgid ""
+"By default your WP e-Commerce install uses the stable update stream, to "
+"return to this please deactivate this plugin"
+msgstr ""
+
+#: ../classes/wpec-updater.php:141
+msgid "Please select the update source you would like this blog to use:"
+msgstr ""
+
+#: ../classes/wpec-updater.php:147
+msgid "Test master branch"
+msgstr ""
+
+#: ../classes/wpec-updater.php:148
+msgid ""
+"This contains the work that is occuring on a master branch. This should also "
+"be fairly stable."
+msgstr ""
+
+#: ../classes/wpec-updater.php:153
+msgid "Test pull request"
+msgstr ""
+
+#: ../classes/wpec-updater.php:154
+msgid ""
+"This contains the work that is occuring on a branch assigned to submitted "
+"pull request. This may be unstable at times. <em>Only use this if you really "
+"know what you are doing</em>."
+msgstr ""
+
+#: ../classes/wpec-updater.php:160
+msgid "ID"
+msgstr ""
+
+#: ../classes/wpec-updater.php:161
+msgid ""
+"If you have choosen pull requests as source, enter here ID of pull request "
+"to test."
+msgstr ""
+
+#: ../classes/wpec-updater.php:165
+msgid "Save Changes"
+msgstr ""
+
+#: ../classes/wpec-updater.php:167
+#, php-format
+msgid "Why don't you <a href=\"%s\">head on over and upgrade now</a>."
+msgstr ""
