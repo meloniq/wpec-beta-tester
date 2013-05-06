@@ -2,7 +2,7 @@
 Contributors: meloniq
 Donate link: http://blog.meloniq.net/donate/
 Plugin URI: http://wordpress.org/extend/plugins/wp-e-commerce/
-Tags: WP e-Commerce, wpec, wpsc, dev, github,  beta, beta tester
+Tags: WP e-Commerce, wpec, wpsc, dev, github, beta, beta tester
 Requires at least: 3.3
 Tested up to: 3.5.1
 Stable tag: 1.0
@@ -25,7 +25,7 @@ Easily run the bleeding edge version of [WP e-Commerce](http://wordpress.org/ext
 
 = Why am I not getting update notifications when there were new commits? =
 
-Just like with any plugin, this will not check for updates on every admin page load unless you explicetely tell it to. You can do this by clicking the "Check Again" button from the WordPress updates screen or you can set the WP_GITHUB_FORCE_UPDATE or WP_DEBUG as true in your wp-config.php file.
+Just like with any plugin, this will not check for updates on every admin page load unless you explicetely tell it to. You can do this by clicking the "Check Again" button from the WordPress updates screen or you can set the WP_GITHUB_FORCE_UPDATE as true in your wp-config.php file.
 
 
 == Installation ==
