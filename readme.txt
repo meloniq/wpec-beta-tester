@@ -46,3 +46,4 @@ Just like with any plugin, this will not check for updates on every admin page l
 == Screenshots ==
 
 1. Plugin configuration page
+2. Available updates
