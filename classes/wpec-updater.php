@@ -22,6 +22,12 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 	}
 
 
+	/**
+	 * Creates an array with configuration data 
+	 *
+	 * @since 1.0
+	 * @return array
+	 */
 	function create_config_data() {
 		global $wp_version;
 
@@ -56,6 +62,12 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 	}
 
 
+	/**
+	 * Returns data of repository assigned to pull request
+	 *
+	 * @since 1.0
+	 * @return array|bool
+	 */
 	function get_pulls_source_data() {
 		$source = get_option( 'wpec_beta_tester_source' );
 		$pull_id = get_option( 'wpec_beta_tester_pull' );
@@ -85,22 +97,46 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 	}
 
 
+	/**
+	 * Misc actions that run on 'admin_init'
+	 *
+	 * @since 1.0
+	 * @return void
+	 */
 	function admin_init() {
 		register_setting( 'wpec_beta_tester_options', 'wpec_beta_tester_source', array( &$this, 'validate_setting' ) );
 		register_setting( 'wpec_beta_tester_options', 'wpec_beta_tester_pull', 'intval' );
 	}
 
 
+	/**
+	 * Adds plugin admin menu
+	 *
+	 * @since 1.0
+	 * @return void
+	 */
 	function add_admin_menu() {
 		add_management_page( __( 'Beta Testing WPEC', 'wpec-beta-tester' ), __( 'WPEC Beta Testing', 'wpec-beta-tester' ), 'update_plugins', 'wpec_beta_tester', array( &$this, 'display_page' ) );
 	}
 
 
+	/**
+	 * Loads plugin localization
+	 *
+	 * @since 1.0
+	 * @return void
+	 */
 	function load_textdomain() {
 		load_plugin_textdomain( 'wpec-beta-tester', false, basename( dirname( __FILE__ ) ) . '/languages' );
 	}
 
 
+	/**
+	 * Validates source type setting
+	 *
+	 * @since 1.0
+	 * @return string
+	 */
 	function validate_setting( $setting ) {
 		if ( ! in_array( $setting, array( 'master', 'pulls' ) ) )	{
 			$setting = 'master';
@@ -112,6 +148,12 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 	}
 
 
+	/**
+	 * Generates settings page for plugin
+	 *
+	 * @since 1.0
+	 * @return void
+	 */
 	function display_page() {
 		if ( ! current_user_can( 'update_plugins' ) )
 			wp_die( __( 'You do not have sufficient permissions to access this page.', 'wpec-beta-tester' ) );
@@ -171,6 +213,12 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 	}
 
 
+	/**
+	 * Obtains and returns SHA of latest commit
+	 *
+	 * @since 1.0
+	 * @return string|bool
+	 */
 	public function get_latest_commit_sha() {
 		$last_commit = get_site_transient( 'wpec_beta_tester_last_commit' );
 
@@ -196,6 +244,13 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 	}
 
 
+	/**
+	 * Hook into the plugin update check and connect to github
+	 *
+	 * @since 1.0
+	 * @param object  $transient the plugin data transient
+	 * @return object $transient updated plugin data transient
+	 */
 	public function api_check( $transient ) {
 
 		// Check if the transient contains the 'checked' information
@@ -221,6 +276,12 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 	}
 
 
+	/**
+	 * Obtains and returns version number from plugin file stored in repository
+	 *
+	 * @since 1.0
+	 * @return string|bool
+	 */
 	public function get_remote_version() {
 		$version = get_site_transient( 'wpec_beta_tester_remote_version' );
 
