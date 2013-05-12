@@ -238,20 +238,23 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 
 		if ( $this->overrule_transients() || empty( $last_commit ) ) {
 			$commits = wp_remote_get(
-				trailingslashit( $this->config['api_url'] ) . 'commits',
+				path_join( $this->config['api_url'], 'commits' ),
 				array(
 					'sslverify' => $this->config['sslverify'],
 				)
 			);
+			
+			if ( 200 !== wp_remote_retrieve_response_code( $commits ) )
+				return false;
 
 			if ( is_wp_error( $commits ) )
 				return false;
 
-			$commits = json_decode( $commits['body'] );
-			$last_commit = substr( $commits[0]->sha, 0, 7 );
+			$commits     = json_decode( $commits['body'] );
+			$last_commit = ( is_array( $commits ) && isset( $commits[0]->sha ) ) ? substr( $commits[0]->sha, 0, 7 ) : '';
 
 			// refresh every hour
-			set_site_transient( 'wpec_beta_tester_last_commit', $last_commit, 60*60*1 );
+			set_site_transient( 'wpec_beta_tester_last_commit', $last_commit, 3600 );
 		}
 
 		return $last_commit;
