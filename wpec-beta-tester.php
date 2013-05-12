@@ -37,6 +37,7 @@ add_action( 'plugins_loaded', 'wpec_beta_tester_init' );
  */ 
 function wpec_beta_tester_clear() {
 	delete_site_transient( 'update_plugins' );
+	delete_site_transient( 'wpec_beta_tester_pull_source' );
 	delete_site_transient( 'wpec_beta_tester_last_commit' );
 	delete_site_transient( 'wpec_beta_tester_remote_version' );
 }

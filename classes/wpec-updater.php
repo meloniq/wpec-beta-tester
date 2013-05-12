@@ -78,22 +78,35 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 		if ( ! is_numeric( $pull_id ) || $pull_id < 1 )
 			return false;
 
-		$pull_url = 'https://api.github.com/repos/wp-e-commerce/WP-e-Commerce/pulls/' . $pull_id;
-		$response = wp_remote_get( $pull_url, array( 'sslverify' => false ) );
+		$pull_source = get_site_transient( 'wpec_beta_tester_pull_source' );
 
-		if ( is_wp_error( $response ) )
-			return false;
+		if ( $this->overrule_transients() || empty( $pull_source ) ) {
 
-		$pull_data = json_decode( $response['body'] );
+			$pull_url = 'https://api.github.com/repos/wp-e-commerce/WP-e-Commerce/pulls/' . $pull_id;
+			$response = wp_remote_get( $pull_url, array( 'sslverify' => false ) );
 
-		if ( $pull_data->state != 'open' )
-			return false;
+			if ( 200 !== wp_remote_retrieve_response_code( $response ) )
+				return false;
 
-		return array(
-			'user' => $pull_data->head->repo->owner->login,
-			'repo' => $pull_data->head->repo->name,
-			'branch' => $pull_data->head->ref,
-		);		
+			if ( is_wp_error( $response ) )
+				return false;
+
+			$pull_data = json_decode( $response['body'] );
+
+			if ( $pull_data->state != 'open' )
+				return false;
+
+			$pull_source = array(
+				'user' => $pull_data->head->repo->owner->login,
+				'repo' => $pull_data->head->repo->name,
+				'branch' => $pull_data->head->ref,
+			);
+
+			// refresh every hour
+			set_site_transient( 'wpec_beta_tester_pull_source', $pull_source, 60*60*1 );
+		}
+
+		return $pull_source;
 	}
 
 
@@ -141,8 +154,9 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 		if ( ! in_array( $setting, array( 'master', 'pulls' ) ) )	{
 			$setting = 'master';
 		}
-		// clear last commit transient
+		// clear last commit & pull source transients
 		delete_site_transient( 'wpec_beta_tester_last_commit' );
+		delete_site_transient( 'wpec_beta_tester_pull_source' );
 
 		return $setting;
 	}
@@ -222,7 +236,7 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 	public function get_latest_commit_sha() {
 		$last_commit = get_site_transient( 'wpec_beta_tester_last_commit' );
 
-		if ( ! isset( $last_commit ) || ! $last_commit || '' == $last_commit ) {
+		if ( $this->overrule_transients() || empty( $last_commit ) ) {
 			$commits = wp_remote_get(
 				trailingslashit( $this->config['api_url'] ) . 'commits',
 				array(
@@ -285,12 +299,15 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 	public function get_remote_version() {
 		$version = get_site_transient( 'wpec_beta_tester_remote_version' );
 
-		if ( ! isset( $version ) || ! $version || '' == $version ) {
+		if ( $this->overrule_transients() || empty( $version ) ) {
 
 			$query = trailingslashit( $this->config['raw_url'] ) . basename( $this->config['slug'] );
 			$query = add_query_arg( array( 'access_token' => $this->config['access_token'] ), $query );
 
 			$raw_response = wp_remote_get( $query, array( 'sslverify' => $this->config['sslverify'] ) );
+
+			if ( 200 !== wp_remote_retrieve_response_code( $raw_response ) )
+				return false;
 
 			if ( is_wp_error( $raw_response ) )
 				return false;
