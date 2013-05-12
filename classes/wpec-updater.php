@@ -240,7 +240,7 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 			$last_commit = ( is_array( $commits ) && isset( $commits[0]->sha ) ) ? substr( $commits[0]->sha, 0, 7 ) : '';
 
 			// refresh every hour
-			set_site_transient( 'wpec_beta_tester_last_commit', $last_commit, DAY_IN_SECONDS );
+			set_site_transient( 'wpec_beta_tester_last_commit', $last_commit, 3600 );
 		}
 
 		return $last_commit;
