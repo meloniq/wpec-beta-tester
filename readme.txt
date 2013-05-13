@@ -1,5 +1,5 @@
 === WP e-Commerce Beta Tester ===
-Contributors: meloniq, justinsainton, garyc40
+Contributors: meloniq, JustinSainton, garyc40
 Donate link: http://blog.meloniq.net/donate/
 Plugin URI: http://wordpress.org/extend/plugins/wp-e-commerce/
 Tags: WP e-Commerce, wpec, wpsc, dev, github, beta, beta tester
