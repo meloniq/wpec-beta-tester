@@ -4,7 +4,7 @@ Donate link: http://blog.meloniq.net/donate/
 Plugin URI: http://wordpress.org/extend/plugins/wp-e-commerce/
 Tags: WP e-Commerce, wpec, wpsc, dev, github, beta, beta tester
 Requires at least: 3.4
-Tested up to: 3.5.1
+Tested up to: 3.9
 Stable tag: 1.0
 
 Easily run the bleeding edge version of WP e-Commerce right from GitHub.
