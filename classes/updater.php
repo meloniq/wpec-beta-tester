@@ -206,25 +206,25 @@ class WP_GitHub_Updater {
 
 
 	/**
-	 * Get New Version from github
+	 * Get New Version from GitHub
 	 *
 	 * @since 1.0
 	 * @return int $version the version number
 	 */
 	public function get_new_version() {
-		$version = get_site_transient( $this->config['slug'].'_new_version' );
+		$version = get_site_transient( md5($this->config['slug']).'_new_version' );
 
 		if ( $this->overrule_transients() || ( !isset( $version ) || !$version || '' == $version ) ) {
 
-			$query = trailingslashit( $this->config['raw_url'] ) . basename( $this->config['slug'] );
-			$query = add_query_arg( array( 'access_token' => $this->config['access_token'] ), $query );
-
-			$raw_response = wp_remote_get( $query, array( 'sslverify' => $this->config['sslverify'] ) );
+			$raw_response = $this->remote_get( trailingslashit( $this->config['raw_url'] ) . basename( $this->config['slug'] ) );
 
 			if ( is_wp_error( $raw_response ) )
 				$version = false;
 
-			preg_match( '#^\s*Version\:\s*(.*)$#im', $raw_response['body'], $matches );
+			if (is_array($raw_response)) {
+				if (!empty($raw_response['body']))
+					preg_match( '/.*Version\:\s*(.*)$/mi', $raw_response['body'], $matches );
+			}
 
 			if ( empty( $matches[1] ) )
 				$version = false;
@@ -232,28 +232,48 @@ class WP_GitHub_Updater {
 				$version = $matches[1];
 
 			// back compat for older readme version handling
-			$query = trailingslashit( $this->config['raw_url'] ) . $this->config['readme'];
-			$query = add_query_arg( array( 'access_token' => $this->config['access_token'] ), $query );
+			// only done when there is no version found in file name
+			if ( false === $version ) {
+				$raw_response = $this->remote_get( trailingslashit( $this->config['raw_url'] ) . $this->config['readme'] );
 
-			$raw_response = wp_remote_get( $query, array( 'sslverify' => $this->config['sslverify'] ) );
+				if ( is_wp_error( $raw_response ) )
+					return $version;
 
-			if ( is_wp_error( $raw_response ) )
-				return $version;
+				preg_match( '#^\s*`*~Current Version\:\s*([^~]*)~#im', $raw_response['body'], $__version );
 
-			preg_match( '#^\s*`*~Current Version\:\s*([^~]*)~#im', $raw_response['body'], $__version );
-
-			if ( isset( $__version[1] ) ) {
-				$version_readme = $__version[1];
-				if ( -1 == version_compare( $version, $version_readme ) )
-					$version = $version_readme;
+				if ( isset( $__version[1] ) ) {
+					$version_readme = $__version[1];
+					if ( -1 == version_compare( $version, $version_readme ) )
+						$version = $version_readme;
+				}
 			}
 
 			// refresh every 6 hours
 			if ( false !== $version )
-				set_site_transient( $this->config['slug'].'_new_version', $version, 60*60*6 );
+				set_site_transient( md5($this->config['slug']).'_new_version', $version, 60*60*6 );
 		}
 
 		return $version;
+	}
+
+
+	/**
+	 * Interact with GitHub
+	 *
+	 * @param string $query
+	 *
+	 * @since 1.6
+	 * @return mixed
+	 */
+	public function remote_get( $query ) {
+		if ( ! empty( $this->config['access_token'] ) )
+			$query = add_query_arg( array( 'access_token' => $this->config['access_token'] ), $query );
+
+		$raw_response = wp_remote_get( $query, array(
+			'sslverify' => $this->config['sslverify']
+		) );
+
+		return $raw_response;
 	}
 
 
@@ -267,13 +287,10 @@ class WP_GitHub_Updater {
 		if ( isset( $this->github_data ) && ! empty( $this->github_data ) ) {
 			$github_data = $this->github_data;
 		} else {
-			$github_data = get_site_transient( $this->config['slug'].'_github_data' );
+			$github_data = get_site_transient( md5($this->config['slug']).'_github_data' );
 
 			if ( $this->overrule_transients() || ( ! isset( $github_data ) || ! $github_data || '' == $github_data ) ) {
-				$query = $this->config['api_url'];
-				$query = add_query_arg( array( 'access_token' => $this->config['access_token'] ), $query );
-
-				$github_data = wp_remote_get( $query, array( 'sslverify' => $this->config['sslverify'] ) );
+				$github_data = $this->remote_get( $this->config['api_url'] );
 
 				if ( is_wp_error( $github_data ) )
 					return false;
@@ -281,7 +298,7 @@ class WP_GitHub_Updater {
 				$github_data = json_decode( $github_data['body'] );
 
 				// refresh every 6 hours
-				set_site_transient( $this->config['slug'].'_github_data', $github_data, 60*60*6 );
+				set_site_transient( md5($this->config['slug']).'_github_data', $github_data, 60*60*6 );
 			}
 
 			// Store the data in this class instance for future calls
@@ -330,7 +347,7 @@ class WP_GitHub_Updater {
 
 
 	/**
-	 * Hook into the plugin update check and connect to github
+	 * Hook into the plugin update check and connect to GitHub
 	 *
 	 * @since 1.0
 	 * @param object  $transient the plugin data transient
@@ -374,7 +391,7 @@ class WP_GitHub_Updater {
 	public function get_plugin_info( $false, $action, $response ) {
 
 		// Check if this call API is for the right plugin
-		if ( $response->slug != $this->config['slug'] )
+		if ( !isset( $response->slug ) || $response->slug != $this->config['slug'] )
 			return false;
 
 		$response->slug = $this->config['slug'];
