@@ -39,8 +39,9 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 
 		$source = get_option( 'wpec_beta_tester_source' );
 		$pull_id = get_option( 'wpec_beta_tester_pull' );
-		if ( $pulls = $this->get_pulls_source_data() )
+		if ( $pulls = $this->get_pulls_source_data() ) {
 			$source_data = $pulls;
+		}
 
 		extract( $source_data );
 
@@ -71,12 +72,14 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 	function get_pulls_source_data() {
 		$source = get_option( 'wpec_beta_tester_source' );
 		$pull_id = get_option( 'wpec_beta_tester_pull' );
-		
-		if ( $source != 'pulls' )
-			return false;
 
-		if ( ! is_numeric( $pull_id ) || $pull_id < 1 )
+		if ( $source != 'pulls' ) {
 			return false;
+		}
+
+		if ( ! is_numeric( $pull_id ) || $pull_id < 1 ) {
+			return false;
+		}
 
 		$pull_source = get_site_transient( 'wpec_beta_tester_pull_source' );
 
@@ -85,16 +88,19 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 			$pull_url = 'https://api.github.com/repos/wp-e-commerce/WP-e-Commerce/pulls/' . $pull_id;
 			$response = wp_remote_get( $pull_url, array( 'sslverify' => false ) );
 
-			if ( 200 !== wp_remote_retrieve_response_code( $response ) )
+			if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
 				return false;
+			}
 
-			if ( is_wp_error( $response ) )
+			if ( is_wp_error( $response ) ) {
 				return false;
+			}
 
 			$pull_data = json_decode( $response['body'] );
 
-			if ( $pull_data->state != 'open' )
+			if ( $pull_data->state != 'open' ) {
 				return false;
+			}
 
 			$pull_source = array(
 				'user' => $pull_data->head->repo->owner->login,
@@ -129,7 +135,7 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 	 * @return void
 	 */
 	function add_admin_menu() {
-		add_management_page( __( 'Beta Testing WPEC', 'wpec-beta-tester' ), __( 'WPEC Beta Testing', 'wpec-beta-tester' ), 'update_plugins', 'wpec_beta_tester', array( &$this, 'display_page' ) );
+		add_management_page( __( 'Beta Testing WPeC', 'wpec-beta-tester' ), __( 'WPeC Beta Testing', 'wpec-beta-tester' ), 'update_plugins', 'wpec_beta_tester', array( &$this, 'display_page' ) );
 	}
 
 
@@ -174,9 +180,9 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 
 		?>
 		<div class="wrap"><?php screen_icon(); ?>
-			<h2><?php _e( 'Beta Testing WP e-Commerce', 'wpec-beta-tester' ); ?></h2>
+			<h2><?php _e( 'Beta Testing WP eCommerce', 'wpec-beta-tester' ); ?></h2>
 			<div class="updated fade">
-				<p><?php _e( '<strong>Please note:</strong> Once you have switched your WP e-Commerce to one of these beta versions of software it will not always be possible to downgrade as the database structure maybe updated during the development of a major release.', 'wpec-beta-tester' ); ?></p>	
+				<p><?php _e( '<strong>Please note:</strong> Once you have switched your WP eCommerce to one of these beta versions of software it will not always be possible to downgrade as the database structure maybe updated during the development of a major release.', 'wpec-beta-tester' ); ?></p>	
 			</div>
 			<div>
 				<p>
@@ -187,11 +193,11 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 				</p>
 				<p>
 					<?php printf(
-						__( 'Thank you for helping in testing WP e-Commerce please <a href="%s">report any bugs you find</a>.', 'wpec-beta-tester' ),
+						__( 'Thank you for helping in testing WP eCommerce please <a href="%s">report any bugs you find</a>.', 'wpec-beta-tester' ),
 						_x( 'https://github.com/wp-e-commerce/WP-e-Commerce/issues/new', 'Url to raise a new ticket', 'wpec-beta-tester' )
 					); ?>
 				</p>
-				<p><?php _e( 'By default your WP e-Commerce install uses the stable update stream, to return to this please deactivate this plugin', 'wpec-beta-tester' ); ?></p>
+				<p><?php _e( 'By default your WP eCommerce install uses the stable update stream, to return to this please deactivate this plugin', 'wpec-beta-tester' ); ?></p>
 
 				<form method="post" action="options.php"><?php settings_fields( 'wpec_beta_tester_options' ); ?>
 				<fieldset><legend><?php _e( 'Please select the update source you would like this blog to use:', 'wpec-beta-tester' ); ?></legend>
@@ -244,11 +250,13 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 				)
 			);
 			
-			if ( 200 !== wp_remote_retrieve_response_code( $commits ) )
+			if ( 200 !== wp_remote_retrieve_response_code( $commits ) ) {
 				return false;
+			}
 
-			if ( is_wp_error( $commits ) )
+			if ( is_wp_error( $commits ) ) {
 				return false;
+			}
 
 			$commits     = json_decode( $commits['body'] );
 			$last_commit = ( is_array( $commits ) && isset( $commits[0]->sha ) ) ? substr( $commits[0]->sha, 0, 7 ) : '';
@@ -272,14 +280,20 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 
 		// Check if the transient contains the 'checked' information
 		// If not, just return its value without hacking it
-		if ( empty( $transient->checked ) )
+		if ( empty( $transient->checked ) ) {
 			return $transient;
+		}
 
 		// if sha's match, let's move on
-		if ( $this->config['new_version'] == $this->config['version'] )
+		if ( $this->config['new_version'] == $this->config['version'] ) {
 			return $transient;
+		}
 
-		$new_version = ( $this->get_remote_version() ) ? $this->get_remote_version() . '-' . $this->config['new_version'] : $this->config['new_version'];
+		if ( $this->get_remote_version() ) {
+			$new_version = $this->get_remote_version() . '-' . $this->config['new_version'];
+		} else {
+			$new_version = $this->config['new_version'];
+		}
 
 		$response = new stdClass;
 		$response->new_version = $new_version;
@@ -309,11 +323,13 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 
 			$raw_response = wp_remote_get( $query, array( 'sslverify' => $this->config['sslverify'] ) );
 
-			if ( 200 !== wp_remote_retrieve_response_code( $raw_response ) )
+			if ( 200 !== wp_remote_retrieve_response_code( $raw_response ) ) {
 				return false;
+			}
 
-			if ( is_wp_error( $raw_response ) )
+			if ( is_wp_error( $raw_response ) ) {
 				return false;
+			}
 
 			if ( preg_match( '/\* Version: ([0-9\.]*)(.*)/', $raw_response['body'], $matches ) ) {
 				$version = $matches[1];
@@ -355,13 +371,15 @@ class WPEC_GitHub_Updater extends WP_GitHub_Updater {
 		$activate = activate_plugin( WP_PLUGIN_DIR . '/' . $this->config['slug'] );
 
 		// Output the update message
-		if ( is_wp_error( $activate ) )
+		if ( is_wp_error( $activate ) ) {
 			_e( 'The plugin has been updated, but could not be reactivated. Please reactivate it manually.', 'wpec-beta-tester' );
-		else
+		} else {
 			_e( 'Plugin reactivated successfully.', 'wpec-beta-tester' );
+		}
 
-		if ( ! is_wp_error( $activate ) ) 
+		if ( ! is_wp_error( $activate ) ) {
 			update_option( 'wpec_beta_tester_sha', $this->config['new_version'] );
+		}
 
 		return $result;
 	}

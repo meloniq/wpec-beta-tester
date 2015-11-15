@@ -1,31 +1,37 @@
 <?php
-
 /*
-Plugin Name: WP e-Commerce Beta Tester
+Plugin Name: WP eCommerce Beta Tester
 Plugin URI: http://blog.meloniq.net/
-Description: Update your WP e-Commerce plugin straight from the GitHub repository and run the bleeding edge version. ** This is not recommended for production sites.
-Version: 1.0
+Description: Update your WP eCommerce plugin straight from the GitHub repository and run the bleeding edge version. ** This is not recommended for production sites.
+Version: 1.1
 Author: MELONIQ.NET
 Author URI: http://www.meloniq.net/
+Text Domain: wpec-beta-tester
+Domain Path: /languages
 License: GPLv2
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
 /**
  * Initialize Updater
- */ 
+ *
+ * @global object $wpec_beta_tester
+ *
+ * @return void
+ */
 function wpec_beta_tester_init() {
 	global $wpec_beta_tester;
 
-	if ( ! class_exists( 'WP_GitHub_Updater' ) )
+	if ( ! class_exists( 'WP_GitHub_Updater' ) ) {
 		require_once( 'classes/updater.php' );
+	}
 
-	if ( ! class_exists( 'WPEC_GitHub_Updater' ) )
+	if ( ! class_exists( 'WPEC_GitHub_Updater' ) ) {
 		require_once( 'classes/wpec-updater.php' );
+	}
 
 	if ( is_admin() ) {
-
 		$wpec_beta_tester = new WPEC_GitHub_Updater();
-
 	}
 
 }
@@ -34,7 +40,9 @@ add_action( 'plugins_loaded', 'wpec_beta_tester_init' );
 
 /**
  * Clear plugins update transient
- */ 
+ *
+ * @return void
+ */
 function wpec_beta_tester_clear() {
 	delete_site_transient( 'update_plugins' );
 	delete_site_transient( 'wpec_beta_tester_pull_source' );
