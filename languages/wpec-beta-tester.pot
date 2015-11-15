@@ -1,19 +1,20 @@
-# Copyright (C) 2013 MELONIQ.NET
-# This file is distributed under the same license as the WPEC Beta Tester package.
+# Copyright (C) 2013-2015 MELONIQ.NET
+# This file is distributed under the same license as the WPeC Beta Tester package.
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: WPEC Beta Tester 1.0\n"
+"Project-Id-Version: WPeC Beta Tester 1.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wpec-beta-tester\n"
-"POT-Creation-Date: 2013-05-05 21:02+0100\n"
+"POT-Creation-Date: 2015-11-15 21:37+0100\n"
 "PO-Revision-Date: 2013-05-05 21:03+0100\n"
 "Last-Translator: MELONIQ.NET\n"
 "Language-Team: MELONIQ.NET\n"
-"Language: English\n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.8.6\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_nx:1,2;_x:1,2c;_ex:1,2c;esc_attr__;"
 "esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
 "_nx_noop:1,2,3c\n"
@@ -21,41 +22,41 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../classes/updater.php:418 ../classes/wpec-updater.php:278
+#: ../classes/updater.php:434 ../classes/wpec-updater.php:375
 msgid ""
 "The plugin has been updated, but could not be reactivated. Please reactivate "
 "it manually."
 msgstr ""
 
-#: ../classes/updater.php:419 ../classes/wpec-updater.php:280
+#: ../classes/updater.php:435 ../classes/wpec-updater.php:377
 msgid "Plugin reactivated successfully."
 msgstr ""
 
-#: ../classes/wpec-updater.php:95
-msgid "Beta Testing WPEC"
+#: ../classes/wpec-updater.php:138
+msgid "Beta Testing WPeC"
 msgstr ""
 
-#: ../classes/wpec-updater.php:95
-msgid "WPEC Beta Testing"
+#: ../classes/wpec-updater.php:138
+msgid "WPeC Beta Testing"
 msgstr ""
 
-#: ../classes/wpec-updater.php:117
+#: ../classes/wpec-updater.php:179
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: ../classes/wpec-updater.php:121
-msgid "Beta Testing WP e-Commerce"
+#: ../classes/wpec-updater.php:183
+msgid "Beta Testing WP eCommerce"
 msgstr ""
 
-#: ../classes/wpec-updater.php:123
+#: ../classes/wpec-updater.php:185
 msgid ""
-"<strong>Please note:</strong> Once you have switched your WP e-Commerce to "
+"<strong>Please note:</strong> Once you have switched your WP eCommerce to "
 "one of these beta versions of software it will not always be possible to "
 "downgrade as the database structure maybe updated during the development of "
 "a major release."
 msgstr ""
 
-#: ../classes/wpec-updater.php:128
+#: ../classes/wpec-updater.php:190
 #, php-format
 msgid ""
 "By their nature these releases are unstable and should not be used anyplace "
@@ -63,69 +64,69 @@ msgid ""
 "database</a> before upgrading to a test release."
 msgstr ""
 
-#: ../classes/wpec-updater.php:129
+#: ../classes/wpec-updater.php:191
 msgctxt "Url to database backup instructions"
 msgid "http://codex.wordpress.org/Backing_Up_Your_Database"
 msgstr ""
 
-#: ../classes/wpec-updater.php:134
+#: ../classes/wpec-updater.php:196
 #, php-format
 msgid ""
-"Thank you for helping in testing WP e-Commerce please <a href=\"%s\">report "
+"Thank you for helping in testing WP eCommerce please <a href=\"%s\">report "
 "any bugs you find</a>."
 msgstr ""
 
-#: ../classes/wpec-updater.php:135
+#: ../classes/wpec-updater.php:197
 msgctxt "Url to raise a new ticket"
 msgid "https://github.com/wp-e-commerce/WP-e-Commerce/issues/new"
 msgstr ""
 
-#: ../classes/wpec-updater.php:138
+#: ../classes/wpec-updater.php:200
 msgid ""
-"By default your WP e-Commerce install uses the stable update stream, to "
+"By default your WP eCommerce install uses the stable update stream, to "
 "return to this please deactivate this plugin"
 msgstr ""
 
-#: ../classes/wpec-updater.php:141
+#: ../classes/wpec-updater.php:203
 msgid "Please select the update source you would like this blog to use:"
 msgstr ""
 
-#: ../classes/wpec-updater.php:147
+#: ../classes/wpec-updater.php:209
 msgid "Test master branch"
 msgstr ""
 
-#: ../classes/wpec-updater.php:148
+#: ../classes/wpec-updater.php:210
 msgid ""
 "This contains the work that is occuring on a master branch. This should also "
 "be fairly stable."
 msgstr ""
 
-#: ../classes/wpec-updater.php:153
+#: ../classes/wpec-updater.php:215
 msgid "Test pull request"
 msgstr ""
 
-#: ../classes/wpec-updater.php:154
+#: ../classes/wpec-updater.php:216
 msgid ""
 "This contains the work that is occuring on a branch assigned to submitted "
 "pull request. This may be unstable at times. <em>Only use this if you really "
 "know what you are doing</em>."
 msgstr ""
 
-#: ../classes/wpec-updater.php:160
+#: ../classes/wpec-updater.php:222
 msgid "ID"
 msgstr ""
 
-#: ../classes/wpec-updater.php:161
+#: ../classes/wpec-updater.php:223
 msgid ""
 "If you have choosen pull requests as source, enter here ID of pull request "
 "to test."
 msgstr ""
 
-#: ../classes/wpec-updater.php:165
+#: ../classes/wpec-updater.php:227
 msgid "Save Changes"
 msgstr ""
 
-#: ../classes/wpec-updater.php:167
+#: ../classes/wpec-updater.php:229
 #, php-format
 msgid "Why don't you <a href=\"%s\">head on over and upgrade now</a>."
 msgstr ""
